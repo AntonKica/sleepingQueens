@@ -1,3 +1,5 @@
+package game;
+
 public class CardQueen {
 	private String name;
 	public CardQueen(String name) {

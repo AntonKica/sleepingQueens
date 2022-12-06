@@ -1,6 +1,8 @@
+package game;
+
 import java.util.*;
 
-public class SleepingQueens {
+public class Main {
 	private static final int CARD_COUNT_QUEEN = 12;
 	private static final int CARD_COUNT_KING = 8;
 	private static final int CARD_COUNT_KNIGHT = 4;

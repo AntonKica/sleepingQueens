@@ -1,5 +1,6 @@
+package game;
+
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class Player {
 	String name;
@@ -45,7 +46,7 @@ public class Player {
 			consumeCard(dragonFind.get());
 			return null;
 		} else {
-			queens.remove(queen);
+			game.queens.remove(queen);
 			return queen;
 		}
 	}

@@ -1,4 +1,4 @@
-import java.io.ObjectStreamException;
+package game;
 
 public class Card {
 	String name;
