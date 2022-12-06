@@ -1,0 +1,9 @@
+* Sources
+** Generic rules
+- https://www.ultraboardgames.com/sleeping-queens/game-rules.php
+
+** 3 min video
+- https://www.youtube.com/watch?v=naqSF0075RU**Dieharder
+
+** move
+- https://webhome.phy.duke.edu/~rgb/General/dieharder.php
