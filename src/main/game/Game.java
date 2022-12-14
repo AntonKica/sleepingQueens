@@ -1,25 +1,32 @@
 package game;
 
+import game.player.Player;
 import game.position.Position;
 import game.queens.SleepingQueens;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-	private GameState state;
 	private DrawingAndTrashPile pile;
-	private ArrayList<Player> players;
+	private List<Player> players;
 	private SleepingQueens sleepingQueens;
+	private GameFinishedStrategy gameFinishedStrategy;
+	private Integer turn;
 
-	public Game(DrawingAndTrashPile pile, ArrayList<Player> players, SleepingQueens sleepingQueens) {
-		this.state = new GameState();
+	public Game(DrawingAndTrashPile pile, List<Player> players, SleepingQueens sleepingQueens) {
 		this.pile = pile;
 		this.players = players;
 		this.sleepingQueens = sleepingQueens;
+		this.turn = 0;
 	}
 
-	public void play(Integer playerIndex, List<Position> cards) {
-
+	public GameState play(Integer player, List<Position> cards) {
+		// player integer == turn
+		if(player == turn) {
+			players.get(turn).play(cards);
+			++turn;
+		}
+		// TODO construct game state
+		return null;
 	}
 }

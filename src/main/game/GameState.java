@@ -1,5 +1,6 @@
 package game;
 
+import game.card.Card;
 import game.position.AwokenQueenPosition;
 import game.position.HandPosition;
 import game.position.SleepingQueenPosition;
