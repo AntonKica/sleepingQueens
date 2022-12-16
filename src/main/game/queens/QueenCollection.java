@@ -6,16 +6,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class QueenCollection {
+
+public abstract class QueenCollection<PositionType extends Position> {
 	protected List<Queen> queens;
+	protected Integer pickedQueen;
 
 	public QueenCollection(List<Queen> queens) {
 		this.queens = queens;
+		this.pickedQueen = null;
 	}
-	private void addQueen(Queen queen) {
+	public void addQueen(Queen queen) {
 		queens.add(queen);
 	}
 
-	public abstract Optional<Queen> removeQueen(Position position);
-	public abstract Map<Position, Queen> getQueens();
+	public abstract Map<PositionType, Queen> getQueens();
+
+	public abstract boolean select(PositionType position);
+	public Queen draw() {
+		var ret = queens.get(pickedQueen);
+		queens.remove(ret);
+		pickedQueen = null;
+
+		return ret;
+	}
 }
