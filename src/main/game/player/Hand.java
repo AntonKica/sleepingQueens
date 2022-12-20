@@ -5,6 +5,7 @@ import game.card.Card;
 import game.card.CardType;
 import game.position.HandPosition;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -14,12 +15,25 @@ public class Hand {
 	private DrawingAndTrashPile drawingAndTrashPile;
 	private List<Card> cards;
 	private List<Card> pickedCards;
-	public Optional<Card> pickCard(HandPosition position) {
+
+	public Hand(DrawingAndTrashPile drawingAndTrashPile, List<Card> cards) {
+		this.drawingAndTrashPile = drawingAndTrashPile;
+		this.cards = new ArrayList<>(cards);
+		this.pickedCards = List.of();
+	}
+
+	private Optional<Card> pickCardInt(HandPosition position) {
 		var at = position.getCardIndex();
 		return (at >= 0  && at < cards.size()) ? Optional.of(cards.get(at)) : Optional.empty();
 	}
+	public Optional<Card> pickCard(HandPosition position) {
+		var card = pickCardInt(position);
+		card.ifPresent(c -> pickedCards = Arrays.asList(c));
+
+		return card;
+	}
 	public Optional<List<Card>> pickCards(List<HandPosition> positions) {
-		var cards = positions.stream().map(this::pickCard).flatMap(Optional::stream).collect(Collectors.toList());
+		var cards = positions.stream().map(this::pickCardInt).flatMap(Optional::stream).collect(Collectors.toList());
 		if(cards.size() != positions.size())
 			return Optional.empty();
 
@@ -32,7 +46,7 @@ public class Hand {
 		drawingAndTrashPile.trash(pickedCards);
 
 		cards.addAll(drawingAndTrashPile.draw(pickedCards.size()));
-		pickedCards.clear();
+		pickedCards = List.of();
 	}
 
 	public boolean playCardOfType(CardType type) {
@@ -47,6 +61,6 @@ public class Hand {
 	}
 
 	public List<Card> getCards() {
-		return cards;
+		return new ArrayList<>(cards);
 	}
 }

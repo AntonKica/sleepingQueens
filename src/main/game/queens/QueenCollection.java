@@ -2,6 +2,7 @@ package game.queens;
 
 import game.position.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public abstract class QueenCollection<PositionType extends Position> {
 	protected Integer pickedQueen;
 
 	public QueenCollection(List<Queen> queens) {
-		this.queens = queens;
+		this.queens = new ArrayList<>(queens);
 		this.pickedQueen = null;
 	}
 	public void addQueen(Queen queen) {

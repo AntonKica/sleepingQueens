@@ -16,4 +16,18 @@ public class Card {
 	public Integer getValue() {
 		return value;
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other == null)
+			return false;
+		else if(other == this)
+			return true;
+		else if (! (other instanceof Card))
+			return false;
+		else {
+			var otherCard = (Card)other;
+			return type == otherCard.type && value == otherCard.value;
+		}
+	}
 }

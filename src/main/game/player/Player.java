@@ -54,7 +54,7 @@ public class Player {
 	}
 
 	private int countHands(List<Position> positions) {
-		return (int)positions.stream().filter(Hand.class::isInstance).count();
+		return (int)positions.stream().filter(HandPosition.class::isInstance).count();
 	}
 
 	private void playSleepingQueen(List<Position> positions) {
@@ -99,6 +99,7 @@ public class Player {
 				return;
 
 			cards.sort(Comparator.comparing(Card::getValue));
+			var sl  = cards.subList(0, cards.size() - 1);
 			var leftSum = cards.subList(0, cards.size() - 1).stream().mapToInt(Card::getValue).sum();
 			var rightSum = cards.get(cards.size() - 1).getValue();
 
@@ -111,7 +112,7 @@ public class Player {
 		var stateCards = new HashMap<Integer, Card>();
 		var cards = myHand.getCards();
 		for(var i = 0; i < cards.size(); ++i)
-			stateCards.put(i, cards.get(1));
+			stateCards.put(i, cards.get(i));
 
 		var stateQueens = new HashMap<Integer, Queen>();
 		myAwokenQueens.getQueens().forEach((p, q) -> stateQueens.put(p.getCardIndex(), q));
