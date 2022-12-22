@@ -13,16 +13,16 @@ import game.queens.SleepingQueens;
 import java.util.*;
 
 public class Player {
-	private final Map<Integer, Hand> hands;
-	private final Hand myHand;
+	private final Map<Integer, BasicHand> hands;
+	private final BasicHand myHand;
 	private final SleepingQueens sleepingQueens;
 	private final Map<Integer, AwokenQueens> awokenQueens;
 	private final AwokenQueens myAwokenQueens;
 
 
 	public Player(
-			Hand myHand,
-			Map<Integer, Hand> hands,
+			BasicHand myHand,
+			Map<Integer, BasicHand> hands,
 			SleepingQueens sleepingQueens,
 			AwokenQueens myAwokenQueens,
 			Map<Integer, AwokenQueens> awokenQueens) {
@@ -97,9 +97,12 @@ public class Player {
 		myHand.pickCards(positions.stream().map(HandPosition.class::cast).toList()).ifPresent(cards -> {
 			if(cards.stream().anyMatch(c -> c.getType() != CardType.NUMBER))
 				return;
+			if(cards.size() == 1) {
+				myHand.removePickedCardsAndRedraw();
+				return;
+			}
 
 			cards.sort(Comparator.comparing(Card::getValue));
-			var sl  = cards.subList(0, cards.size() - 1);
 			var leftSum = cards.subList(0, cards.size() - 1).stream().mapToInt(Card::getValue).sum();
 			var rightSum = cards.get(cards.size() - 1).getValue();
 

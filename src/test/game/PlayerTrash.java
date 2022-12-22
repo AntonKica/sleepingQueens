@@ -1,28 +1,7 @@
 package game;
 
-import game.card.Card;
-import game.card.CardType;
-import game.player.Hand;
-import game.player.Player;
-import game.player.PlayerState;
-import game.position.AwokenQueenPosition;
-import game.position.HandPosition;
-import game.position.Position;
-import game.position.SleepingQueenPosition;
-import game.queens.AwokenQueens;
-import game.queens.Queen;
-import game.queens.SleepingQueens;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.*;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import static org.mockito.Mockito.*;
-
-public class PlayerTest {
+public class PlayerTrash {
+	/*
 	private DrawingAndTrashPile drawingAndTrashPile;
 
 	@Before
@@ -86,12 +65,13 @@ public class PlayerTest {
 	}
 
 	public void assertPlaySleepingQueen(Card handCard, Position queenPosition, boolean shouldSucceed, String message) {
-		var hand = new Hand(drawingAndTrashPile, List.of(handCard));
+		var hand = new PlayerHand(drawingAndTrashPile, List.of(handCard));
 
 		var sleepingQueens = new SleepingQueens(List.of(new Queen(10)));
+
 		var awokenQueens = new HashMap<Integer, AwokenQueens>();
 		awokenQueens.put(0, new AwokenQueens(0));
-		awokenQueens.put(1, new AwokenQueens(1));
+		awokenQueens.get(0).addQueen(new Queen(10));
 
 		var player = new Player(hand,
 				null,
@@ -131,24 +111,82 @@ public class PlayerTest {
 				"Players knight picked non-existent sleeping queen at 1");
 		assertPlaySleepingQueen(
 				new Card(CardType.KING, 0),
-				new AwokenQueenPosition(1, 1),
+				new SleepingQueenPosition(1),
 				false,
 				"Players king picked non-existent awoken queen from player 1 at 0");
 	}
 	@Test
 	public void awokenQueen() {
-		// Java code for IntStream boxed()
-		IntStream stream = IntStream.range(3, 8);
-
-		// Creating a Stream of Integers
-		// Using IntStream boxed() to return
-		// a Stream consisting of the elements
-		// of this stream, each boxed to an Integer.
-		Stream<Integer> stream1 = stream.boxed();
-
-		// Displaying the elements
-		stream1.map(i->i*i).forEach(System.out::println);
-
-
+		assertPlayAwokenQueen(
+				new Card(CardType.KNIGHT, 0),
+				new Card(CardType.DRAGON, 0),
+				false,
+				"Players knight did wrong against dragon");
+		assertPlayAwokenQueen(
+				new Card(CardType.KNIGHT, 0),
+				new Card(CardType.MAGIC_WAND, 0),
+				true,
+				"Players knight did wrong against card");
+		assertPlayAwokenQueen(
+				new Card(CardType.SLEEPING_POTION, 0),
+				new Card(CardType.MAGIC_WAND, 0),
+				false,
+				"Players sleeping potion did wrong against magic wand");
+		assertPlayAwokenQueen(
+				new Card(CardType.SLEEPING_POTION, 0),
+				new Card(CardType.DRAGON, 0),
+				true,
+				"Players sleeping potion wrong did wrong against card");
 	}
+
+	private void assertPlayAwokenQueen(Card aggressorCard, Card defenderCard, boolean shouldSucceed, String message) {
+		var drawCards = List.of(new Card(CardType.NUMBER, -1));
+		when(drawingAndTrashPile.draw(1)).thenReturn(drawCards);
+
+		var aggressorHand = new PlayerHand(drawingAndTrashPile, List.of(aggressorCard));
+		var defenderHand = new PlayerHand(drawingAndTrashPile, List.of(defenderCard));
+		var hands = new HashMap<Integer, PlayerHand>();
+		hands.put(0, aggressorHand);
+		hands.put(1, defenderHand);
+
+		var aggressorAwokenQueens = new AwokenQueens(0);
+		var defenderAwokenQueens = new AwokenQueens(1);
+		var defenderAwokenQueen = new Queen(10);
+		defenderAwokenQueens.addQueen(defenderAwokenQueen);
+
+		var awokenQueens = new HashMap<Integer, AwokenQueens>();
+		awokenQueens.put(0, aggressorAwokenQueens);
+		awokenQueens.put(1, defenderAwokenQueens);
+
+		var aggressorPlayer = new Player(
+				aggressorHand, hands,
+				new SleepingQueens(new ArrayList<>()),
+				aggressorAwokenQueens, awokenQueens);
+		var defenderPlayer = new Player(
+				defenderHand, hands,
+				new SleepingQueens(new ArrayList<>()),
+				defenderAwokenQueens, awokenQueens);
+
+		var aggressorState = aggressorPlayer.play(List.of(new HandPosition(0, 0), new AwokenQueenPosition(1, 0)));
+		var defenderState = defenderPlayer.getPlayerState();
+
+		var aggressorCards = aggressorState.getCards().values().stream().toList();
+		var defenderCards = defenderState.getCards().values().stream().toList();
+		var aggressorQueens = aggressorState.getAwokenQueens().values().stream().toList();
+		var defenderQueens = defenderState.getAwokenQueens().values().stream().toList();
+
+		if(shouldSucceed) {
+			Assert.assertTrue(message,
+					(aggressorCards.equals(drawCards) && !defenderCards.equals(drawCards)) &&
+							(aggressorQueens.size() == 1 && aggressorQueens.contains(defenderAwokenQueen)) &&
+							(defenderQueens.isEmpty()));
+		} else {
+			Assert.assertTrue(message,
+					(aggressorCards.equals(drawCards) && defenderCards.equals(drawCards)) &&
+							(aggressorQueens.isEmpty()) &&
+							(defenderQueens.size() == 1 && defenderQueens.contains(defenderAwokenQueen)));
+		}
+	}
+
+	 */
 }

@@ -1,19 +1,20 @@
 package game;
 
+import game.drawing.DrawingAndTrashPile;
 import game.player.Player;
 import game.position.Position;
-import game.queens.SleepingQueens;
+import game.queens.PlayerSleepingQueens;
 
 import java.util.List;
 
 public class Game {
 	private DrawingAndTrashPile pile;
 	private List<Player> players;
-	private SleepingQueens sleepingQueens;
+	private PlayerSleepingQueens sleepingQueens;
 	private GameFinishedStrategy gameFinishedStrategy;
 	private Integer turn;
 
-	public Game(DrawingAndTrashPile pile, List<Player> players, SleepingQueens sleepingQueens) {
+	public Game(DrawingAndTrashPile pile, List<Player> players, PlayerSleepingQueens sleepingQueens) {
 		this.pile = pile;
 		this.players = players;
 		this.sleepingQueens = sleepingQueens;
