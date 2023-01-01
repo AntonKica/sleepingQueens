@@ -1,6 +1,7 @@
 package game.player;
 
 import game.card.CardType;
+import game.player.helpers.HandHelpers;
 import game.position.HandPosition;
 import game.position.SleepingQueenPosition;
 import game.queens.AwokenQueens;
@@ -51,13 +52,13 @@ public class PlayerSleepingQueenTests {
 		}
 	}
 
-	HandHelperClasses.hand_with_special_type_or_not mockedHandWithOrWithoutKing;
+	HandHelpers.hand_with_special_type_or_not mockedHandWithOrWithoutKing;
 	two_sleeping_queens_with_value_by_position sleepingQueen;
 	Player player;
 
 	@Before
 	public void init() {
-		mockedHandWithOrWithoutKing = new HandHelperClasses.hand_with_special_type_or_not(CardType.KING);
+		mockedHandWithOrWithoutKing = new HandHelpers.hand_with_special_type_or_not(CardType.KING);
 		var hands = new HashMap<Integer, BasicHand>();
 		hands.put(0, mockedHandWithOrWithoutKing);
 

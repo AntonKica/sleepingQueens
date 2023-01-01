@@ -1,6 +1,8 @@
 package game.player;
 
 import game.card.CardType;
+import game.player.helpers.HandHelpers;
+import game.player.helpers.QueenHelpers;
 import game.position.AwokenQueenPosition;
 import game.position.HandPosition;
 import game.position.SleepingQueenPosition;
@@ -14,93 +16,16 @@ import org.junit.Test;
 import java.util.*;
 
 public class PlayerAwokenQueenKnightTests {
-	public static class two_sleeping_queens_with_value_by_position extends SleepingQueens {
-
-		protected two_sleeping_queens_with_value_by_position() {
-			super(List.of());
-		}
-
-		public void test_reset_queens() {
-			queens = new ArrayList<>(List.of(new Queen(0), new Queen(1)));
-		}
-
-		@Override
-		public Map<SleepingQueenPosition, Queen> getQueens() {
-			var map = new HashMap<SleepingQueenPosition, Queen>();
-			queens.stream().forEach(q -> map.put(new SleepingQueenPosition(0), queens.get(0)));
-
-			return null;
-		}
-
-		private Integer test_pickedQueenIndex;
-		@Override
-		public boolean select(SleepingQueenPosition position) {
-			if(position.getCardIndex() < queens.size() && position.getCardIndex() >= 0) {
-				pickedQueen = position.getCardIndex();
-				test_pickedQueenIndex = queens.get(pickedQueen).getPoints();
-				return true;
-			} else {
-				pickedQueen = null;
-				test_pickedQueenIndex = null;
-				return false;
-			}
-		}
-
-		boolean test_selected_correct_queen_index(Integer index) {
-			return Objects.equals(test_pickedQueenIndex, index);
-		}
-	}
-
-	static class test_awoken_queens extends AwokenQueens {
-		private boolean addOne;
-		protected test_awoken_queens(Integer playerIndex, boolean addOne) {
-			super(playerIndex);
-			this.addOne = addOne;
-
-			test_reset();
-		}
-
-		@Override
-		public Map<AwokenQueenPosition, Queen> getQueens() {
-			var queenPositions = new HashMap<AwokenQueenPosition, Queen>();
-			for(int i = 0; i < queens.size(); ++i)
-				queenPositions.put(new AwokenQueenPosition(i, playerIndex), queens.get(i));
-
-			return queenPositions;
-		}
-
-		@Override
-		public boolean select(AwokenQueenPosition position) {
-			if(position.getPlayerIndex() == playerIndex && position.getCardIndex() < queens.size() && position.getCardIndex() >= 0) {
-				pickedQueen = position.getCardIndex();
-				return true;
-			}  else {
-				pickedQueen = null;
-				return false;
-			}
-		}
-
-		public void test_reset(){
-			queens.clear();
-			if(addOne)
-				addQueen(new Queen(0));
-		}
-
-		public boolean test_hasQueen() {
-			return !queens.isEmpty();
-		}
-	}
-
-	HandHelperClasses.hand_with_special_type_or_not mockedHandWithOrWithoutKnight;
-	HandHelperClasses.hand_with_special_type_or_not mockedHandWithOrWithoutDragon;
-	test_awoken_queens awokenQueensHandWithOrWithoutKnight;
-	test_awoken_queens awokenQueensHandWithOrWithoutDragon;
+	HandHelpers.hand_with_special_type_or_not mockedHandWithOrWithoutKnight;
+	HandHelpers.hand_with_special_type_or_not mockedHandWithOrWithoutDragon;
+	QueenHelpers.test_awoken_queens awokenQueensHandWithOrWithoutKnight;
+	QueenHelpers.test_awoken_queens awokenQueensHandWithOrWithoutDragon;
 	Player playerWithOrWithoutKnight, getPlayerWithOrWithoutDragon;
 
 	@Before
 	public void init() {
-		mockedHandWithOrWithoutKnight = new HandHelperClasses.hand_with_special_type_or_not(CardType.KNIGHT);
-		mockedHandWithOrWithoutDragon = new HandHelperClasses.hand_with_special_type_or_not(CardType.DRAGON);
+		mockedHandWithOrWithoutKnight = new HandHelpers.hand_with_special_type_or_not(CardType.KNIGHT);
+		mockedHandWithOrWithoutDragon = new HandHelpers.hand_with_special_type_or_not(CardType.DRAGON);
 
 		var hands = new HashMap<Integer, BasicHand>();
 		hands.put(0, mockedHandWithOrWithoutKnight);
@@ -118,8 +43,8 @@ public class PlayerAwokenQueenKnightTests {
 			}
 		};
 
-		awokenQueensHandWithOrWithoutKnight = new test_awoken_queens(0, false);
-		awokenQueensHandWithOrWithoutDragon = new test_awoken_queens(1, true);
+		awokenQueensHandWithOrWithoutKnight = new QueenHelpers.test_awoken_queens(0, false);
+		awokenQueensHandWithOrWithoutDragon = new QueenHelpers.test_awoken_queens(1, true);
 		var awokenQueens = new HashMap<Integer, AwokenQueens>();
 		awokenQueens.put(0, awokenQueensHandWithOrWithoutKnight);
 		awokenQueens.put(1, awokenQueensHandWithOrWithoutDragon);
@@ -150,8 +75,8 @@ public class PlayerAwokenQueenKnightTests {
 		playerPlay(true, false);
 
 		Assert.assertTrue("Did not play knight", mockedHandWithOrWithoutKnight.test_card_was_removed());
-		Assert.assertTrue("Did not get queen", awokenQueensHandWithOrWithoutKnight.test_hasQueen());
-		Assert.assertFalse("Did not loose queen", awokenQueensHandWithOrWithoutDragon.test_hasQueen());
+		Assert.assertNotNull("Did not get queen", awokenQueensHandWithOrWithoutKnight.get_test_aquired());
+		Assert.assertNotNull("Did not loose queen", awokenQueensHandWithOrWithoutDragon.get_test_drawn());
 	}
 
 	@Test
@@ -160,8 +85,8 @@ public class PlayerAwokenQueenKnightTests {
 
 		Assert.assertTrue("Did not play knight", mockedHandWithOrWithoutKnight.test_card_was_removed());
 		Assert.assertTrue("Did not play dragon", mockedHandWithOrWithoutDragon.test_card_was_removed());
-		Assert.assertFalse("Did get queen", awokenQueensHandWithOrWithoutKnight.test_hasQueen());
-		Assert.assertTrue("Did loose queen", awokenQueensHandWithOrWithoutDragon.test_hasQueen());
+		Assert.assertNull("Did get queen", awokenQueensHandWithOrWithoutKnight.get_test_aquired());
+		Assert.assertNull("Did loose queen", awokenQueensHandWithOrWithoutDragon.get_test_drawn());
 	}
 
 	@Test
@@ -170,8 +95,8 @@ public class PlayerAwokenQueenKnightTests {
 
 		Assert.assertFalse("Did play card", mockedHandWithOrWithoutKnight.test_card_was_removed());
 		Assert.assertFalse("Did play dragon", mockedHandWithOrWithoutDragon.test_card_was_removed());
-		Assert.assertFalse("Did get queen", awokenQueensHandWithOrWithoutKnight.test_hasQueen());
-		Assert.assertTrue("Did loose queen", awokenQueensHandWithOrWithoutDragon.test_hasQueen());
+		Assert.assertNull("Did get queen", awokenQueensHandWithOrWithoutKnight.get_test_aquired());
+		Assert.assertNull("Did loose queen", awokenQueensHandWithOrWithoutDragon.get_test_drawn());
 	}
 	@Test
 	public void player_plays_with_no_knight_no_dragon() {
@@ -179,7 +104,7 @@ public class PlayerAwokenQueenKnightTests {
 
 		Assert.assertFalse("Did play card", mockedHandWithOrWithoutKnight.test_card_was_removed());
 		Assert.assertFalse("Did play dragon", mockedHandWithOrWithoutDragon.test_card_was_removed());
-		Assert.assertFalse("Did get queen", awokenQueensHandWithOrWithoutKnight.test_hasQueen());
-		Assert.assertTrue("Did loose queen", awokenQueensHandWithOrWithoutDragon.test_hasQueen());
+		Assert.assertNull("Did get queen", awokenQueensHandWithOrWithoutKnight.get_test_aquired());
+		Assert.assertNull("Did loose queen", awokenQueensHandWithOrWithoutDragon.get_test_drawn());
 	}
 }

@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 		PlayerNumberedCardsTests.class,
 		PlayerSleepingQueenTests.class,
-		PlayerAwokenQueenKnightTests.class
+		PlayerAwokenQueenKnightTests.class,
+		PlayerAwokenQueenSleepingPotionTests.class
 })
 public class RunAllTestsPlayer {
 }

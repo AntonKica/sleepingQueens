@@ -1,4 +1,4 @@
-package game.player;
+package game.player.helpers;
 
 import game.card.Card;
 import game.card.CardType;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class HandHelperClasses {
+public class HandHelpers {
 
 	public static class hand_with_special_type_or_not extends BasicHand {
 		private CardType specialType;
