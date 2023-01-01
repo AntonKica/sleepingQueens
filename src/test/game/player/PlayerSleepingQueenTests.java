@@ -1,8 +1,6 @@
-package game;
+package game.player;
 
 import game.card.CardType;
-import game.player.BasicHand;
-import game.player.Player;
 import game.position.HandPosition;
 import game.position.SleepingQueenPosition;
 import game.queens.AwokenQueens;

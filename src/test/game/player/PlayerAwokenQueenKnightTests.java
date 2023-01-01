@@ -1,13 +1,10 @@
-package game;
+package game.player;
 
 import game.card.CardType;
-import game.player.BasicHand;
-import game.player.Player;
 import game.position.AwokenQueenPosition;
 import game.position.HandPosition;
 import game.position.SleepingQueenPosition;
 import game.queens.AwokenQueens;
-import game.queens.PlayerAwokenQueens;
 import game.queens.Queen;
 import game.queens.SleepingQueens;
 import org.junit.Assert;
