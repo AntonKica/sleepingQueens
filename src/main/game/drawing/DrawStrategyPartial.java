@@ -5,8 +5,15 @@ import game.card.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class DrawStrategyPartial implements DrawStrategy {
+	private final Random random;
+
+	public DrawStrategyPartial(int seed) {
+		random = new Random(seed);
+	}
+
 	private List<Card> drawPartial(List<Card> drawingPile, int count) {
 		count = Integer.min(drawingPile.size(), count);
 
@@ -22,7 +29,7 @@ public class DrawStrategyPartial implements DrawStrategy {
 		if(cards.size() != count) {
 			var remainingCount = count - cards.size();
 
-			Collections.shuffle(trashingPile);
+			Collections.shuffle(trashingPile, random);
 			drawingPile.addAll(trashingPile);
 			trashingPile.clear();
 
