@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		DrawStrategyFullTests.class
+		DrawingStrategyFullTests.class,
+		DrawingStrategyFullAndPartialTests.class
 })
-public class RunAllTestsDrawiing {
+public class RunAllTestsDrawing {
 }

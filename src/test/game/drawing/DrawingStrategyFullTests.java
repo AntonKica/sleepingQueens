@@ -7,18 +7,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class DrawStrategyFullTests {
+public class DrawingStrategyFullTests {
 	private List<Card> initialCards;
 	private DrawingAndTrashPile pile;
 
 	@Before
 	public void init() {
 		initialCards = DrawStrategyHelpers.test_create_card_deck();
-		pile = new DrawingAndTrashPile(new ArrayList<>(initialCards), new DrawStrategyFull());
+		pile = new DrawingAndTrashPile(new ArrayList<>(initialCards), new DrawStrategyFull(0));
 	}
 	@Test
 	public void drawed_all_cards_and_none_left() {

@@ -2,7 +2,6 @@ package game.drawing;
 
 import game.card.Card;
 import game.card.CardType;
-import game.drawing.helpers.DrawingStrategyHelpers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +19,9 @@ public class DrawingStrategyFullAndPartialTests {
 		IntStream.range(0, 5).forEach(i->initialCardsWithFiveNumbered.add(new Card(CardType.NUMBER, i)));
 
 		pileWithFullDrawingStrategy = new DrawingAndTrashPile(new ArrayList<>(initialCardsWithFiveNumbered),
-				new DrawingStrategyFull());
+				new DrawStrategyFull(0));
 		pileWithPartialDrawingStrategy = new DrawingAndTrashPile(new ArrayList<>(initialCardsWithFiveNumbered),
-				new DrawingStrategyFull());
+				new DrawStrategyPartial(0));
 	}
 
 	Set<Card> test_draw_four_trash_and_draw_three(DrawingAndTrashPile pile) {
@@ -36,6 +35,8 @@ public class DrawingStrategyFullAndPartialTests {
 		var partialDrawingStrategyCards = test_draw_four_trash_and_draw_three(pileWithPartialDrawingStrategy);
 
 		var message = "Drawed different cards\n Full: " + fullDrawingStrategyCards + "\n" + partialDrawingStrategyCards;
-		Assert.assertTrue(message, fullDrawingStrategyCards.removeAll(partialDrawingStrategyCards));
+		Assert.assertTrue(message,
+				fullDrawingStrategyCards.containsAll(partialDrawingStrategyCards)
+				&& partialDrawingStrategyCards.containsAll(fullDrawingStrategyCards));
 	}
 }
