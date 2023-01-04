@@ -15,7 +15,7 @@ public abstract class BasicHand {
 	protected List<Card> pickedCards;
 	protected BasicHand(DrawingAndTrashPile drawingAndTrashPile, List<Card> cards) {
 		this.drawingAndTrashPile = drawingAndTrashPile;
-		this.cards = List.copyOf(cards);
+		this.cards = new ArrayList<>(cards);
 		this.pickedCards = new ArrayList<>();
 	}
 	public List<Card> getCards() {

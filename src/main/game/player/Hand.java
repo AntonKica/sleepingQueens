@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Hand extends BasicHand {
-	protected Hand(DrawingAndTrashPile drawingAndTrashPile, List<Card> cards) {
+	public Hand(DrawingAndTrashPile drawingAndTrashPile, List<Card> cards) {
 		super(drawingAndTrashPile, cards);
 	}
 
